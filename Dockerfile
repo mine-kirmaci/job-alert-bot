@@ -1,14 +1,24 @@
-# Python imajı
+# Base image
 FROM python:3.11-slim
 
-# Çalışma klasörü
+# Güvenlik için non-root user
+RUN useradd -m appuser
+
 WORKDIR /app
 
-# Dosyaları kopyala
+# Önce sadece requirements kopyala (cache için)
+COPY requirements.txt .
+
+# Paketleri yükle
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Sonra kodu kopyala
 COPY . .
 
-# Gerekli paketleri yükle
-RUN pip install --no-cache-dir requests beautifulsoup4 python-dotenv
+# Yetkiyi değiştir
+RUN chown -R appuser:appuser /app
+USER appuser
 
-# Scripti çalıştır
+ENV PYTHONUNBUFFERED=1
+
 CMD ["python", "job_alert.py"]
