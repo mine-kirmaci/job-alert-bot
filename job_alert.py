@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import os
+from dotenv import load_dotenv
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -9,9 +10,9 @@ BASE_URL = "https://www.youthall.com"
 URL = "https://www.youthall.com/tr/jobs/"
 SEEN_FILE = "seen_jobs.txt"
 
-# 🔐 Gmail Bilgileri
-EMAIL_ADDRESS = "mine1234kitap@gmail.com"
-EMAIL_PASSWORD = "vcbmrkgtgovnaxhp"  
+load_dotenv()
+EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 # Daha önce görülen ilanları oku
 if os.path.exists(SEEN_FILE):
