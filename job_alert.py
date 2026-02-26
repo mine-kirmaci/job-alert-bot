@@ -68,12 +68,12 @@ def send_email(new_jobs):
 
 # Yeni ilan varsa mail gönder
 if new_jobs:
-    print("Yeni ilan bulundu! Mail gönderiliyor...")
+    print(f"{len(new_jobs)} yeni ilan bulundu! Mail gönderiliyor...")
     send_email(new_jobs)
+    
+    # Sadece linkleri txt'ye ekle
+    with open(SEEN_FILE, "a") as f:
+        for title, link in new_jobs:
+            f.write(link + "\n")
 else:
     print("Yeni ilan yok.")
-
-# Güncel listeyi kaydet
-with open(SEEN_FILE, "w") as f:
-    for link in seen_links:
-        f.write(link + "\n")
